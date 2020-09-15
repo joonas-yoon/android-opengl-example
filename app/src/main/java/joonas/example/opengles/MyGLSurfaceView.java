@@ -16,6 +16,7 @@
 package joonas.example.opengles;
 import android.content.Context;
 import android.opengl.GLSurfaceView;
+import android.view.MotionEvent;
 /**
  * A view container where OpenGL ES graphics can be drawn on screen.
  * This view can also be used to capture touch events, such as a user
@@ -32,5 +33,25 @@ public class MyGLSurfaceView extends GLSurfaceView {
         setRenderer(mRenderer);
         // Render the view only when there is a change in the drawing data
         setRenderMode(GLSurfaceView.RENDERMODE_WHEN_DIRTY);
+    }
+    private float mPreviousX;
+    private float mPreviousY;
+    @Override
+    public boolean onTouchEvent(MotionEvent e) {
+        // MotionEvent reports input details from the touch screen
+        // and other input controls. In this case, you are only
+        // interested in events where the touch position changed.
+        float x = e.getX();
+        float y = e.getY();
+        switch (e.getAction()) {
+            case MotionEvent.ACTION_MOVE:
+                float dx = mPreviousX - x;
+                float dy = mPreviousY - y;
+                mRenderer.translate(dx, dy, 0f);
+                requestRender();
+        }
+        mPreviousX = x;
+        mPreviousY = y;
+        return true;
     }
 }
