@@ -74,8 +74,8 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
         this.screenHeight = height;
         // Adjust the viewport based on geometry changes,
         // such as screen rotation
-        GLES20.glViewport(0, 0, width, height);
-        float ratio = (float) width / height;
+        GLES20.glViewport(0, 0, this.screenWidth, this.screenHeight);
+        float ratio = (float) this.screenWidth / this.screenHeight;
         // this projection matrix is applied to object coordinates
         // in the onDrawFrame() method
         Matrix.frustumM(mProjectionMatrix, 0, -ratio, ratio, -1, 1, 3, 10);
