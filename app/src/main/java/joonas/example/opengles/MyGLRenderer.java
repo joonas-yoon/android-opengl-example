@@ -48,6 +48,7 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
     public void onSurfaceCreated(GL10 unused, EGLConfig config) {
         // Set the background frame color
         GLES20.glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+        GLES20.glEnable(GLES20.GL_CULL_FACE);
         mTriangle = new Triangle();
         Matrix.setIdentityM(mTranslateMatrix, 0);
     }
@@ -57,7 +58,7 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
         // Draw background color
         GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT | GLES20.GL_DEPTH_BUFFER_BIT);
         // Set the camera position (View matrix)
-        Matrix.setLookAtM(mViewMatrix, 0, 0, 0, -3, 0f, 0f, 0f, 0f, 1.0f, 0f);
+        Matrix.setLookAtM(mViewMatrix, 0, 0, 0, -5, 0f, 0f, 0f, 0f, 1.0f, 0f);
         // Calculate the projection and view transformation
         Matrix.multiplyMM(mMVPMatrix, 0, mProjectionMatrix, 0, mViewMatrix, 0);
         // Combine the translated matrix with the projection and camera view
@@ -77,7 +78,7 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
         float ratio = (float) width / height;
         // this projection matrix is applied to object coordinates
         // in the onDrawFrame() method
-        Matrix.frustumM(mProjectionMatrix, 0, -ratio, ratio, -1, 1, 3, 7);
+        Matrix.frustumM(mProjectionMatrix, 0, -ratio, ratio, -1, 1, 3, 10);
     }
     /**
      * Utility method for compiling a OpenGL shader.
@@ -120,5 +121,10 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
 
     public void translate(float dx, float dy, float dz) {
         Matrix.translateM(mTranslateMatrix, 0, dx * 2f / screenHeight, dy * 2f / screenHeight, dz * 2f / screenHeight);
+    }
+
+    public void rotate(float dx, float dy) {
+        Matrix.rotateM(mTranslateMatrix, 0, dx * screenWidth / screenHeight, 0, 1f, 0f);
+        Matrix.rotateM(mTranslateMatrix, 0, dy * screenWidth / screenHeight, 1f, 0f, 0f);
     }
 }

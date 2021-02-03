@@ -47,7 +47,8 @@ public class MyGLSurfaceView extends GLSurfaceView {
             case MotionEvent.ACTION_MOVE:
                 float dx = mPreviousX - x;
                 float dy = mPreviousY - y;
-                mRenderer.translate(dx, dy, 0f);
+                // mRenderer.translate(dx, dy, 0f);
+                mRenderer.rotate(dx, dy);
                 requestRender();
         }
         mPreviousX = x;
